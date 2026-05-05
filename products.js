@@ -64,8 +64,10 @@ function renderProducts() {
           <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML=bikeImgFallback('${p.color}')">
         </div>
         <div class="product-badges">
-          ${p.isSale ? `<span class="badge badge-sale">-${p.pct}%</span>` : ''}
-          ${p.isNew  ? `<span class="badge badge-new">Mới về</span>`       : ''}
+          ${p.isUserListing ? `<span class="badge" style="background:var(--orange);color:#fff;font-size:10px;padding:2px 7px;border-radius:20px">📢 Tin đăng</span>` : ''}
+          ${p.isSale && !p.isUserListing ? `<span class="badge badge-sale">-${p.pct}%</span>` : ''}
+          ${p.isSale && p.isUserListing && p.pct > 0 ? `<span class="badge badge-sale">-${p.pct}%</span>` : ''}
+          ${p.isNew && !p.isUserListing ? `<span class="badge badge-new">Mới về</span>` : ''}
         </div>
         <div class="product-wishlist" onclick="toggleWishlist(${p.id}, this)">
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
@@ -254,8 +256,18 @@ function openDetail(id, e) {
       <span class="detail-spec-value">${s.value}</span>
     </div>`).join('');
 
-  const desc = DETAIL_DESCS[p.type] || DETAIL_DESCS['cu'];
-  document.getElementById('detailDesc').innerHTML = `<strong>Mô tả sản phẩm:</strong> ${desc}`;
+  const desc = p.isUserListing && p.desc
+    ? p.desc
+    : (DETAIL_DESCS[p.type] || DETAIL_DESCS['cu']);
+  let descHtml = `<strong>Mô tả sản phẩm:</strong> ${desc}`;
+  if (p.isUserListing) {
+    descHtml += `<div style="margin-top:12px;padding:12px;background:#fff8f2;border-radius:10px;border:1.5px solid #ffd4a8;">
+      <div style="font-weight:700;font-size:13px;color:var(--orange);margin-bottom:6px">📢 Người bán</div>
+      <div style="font-size:13.5px;color:#333"><strong>${p.sellerName || 'Người dùng VeloShop'}</strong></div>
+      <div style="font-size:13px;color:#555;margin-top:3px">📞 ${p.sellerPhone || 'Liên hệ qua chat'}</div>
+    </div>`;
+  }
+  document.getElementById('detailDesc').innerHTML = descHtml;
 
   document.getElementById('btnDetailCart').onclick = () => { addToCartById(id); closeDetail(); };
   document.getElementById('btnDetailBuy').onclick  = () => { addToCartById(id); closeDetail(); setTimeout(openCart, 200); };
