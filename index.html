@@ -87,6 +87,15 @@
             <div class="user-dropdown-email" id="headerUserEmail"></div>
           </div>
           <div class="user-dropdown-divider"></div>
+          <div class="user-dropdown-item sell-item" onclick="closeUserDropdown();openMyListings()">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1" ry="1"/></svg>
+            Tin đăng của tôi
+          </div>
+          <div class="user-dropdown-item sell-item" onclick="closeUserDropdown();openSellModal()">
+            <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Đăng bán xe
+          </div>
+          <div class="user-dropdown-divider"></div>
           <div class="user-dropdown-item" onclick="doLogout()">
             <svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             Đăng xuất
@@ -118,6 +127,7 @@
     <div class="nav-item" onclick="filterCategory('nhat')">Xe đạp Nhật</div>
     <div class="nav-item" onclick="filterCategory('gap')">Xe đạp gấp</div>
     <div class="nav-item highlight" onclick="filterCategory('sale')">🔥 Sale</div>
+    <div class="nav-item sell-btn" onclick="openSellModal()">📢 Đăng bán xe</div>
   </div>
 </nav>
 
@@ -534,6 +544,168 @@
   </div>
 </div>
 
+<!-- ══ SELL MODAL – Đăng bài bán xe ═════════════════════════════════════════ -->
+<div class="sell-overlay" id="sellModal" style="display:none;">
+  <div class="sell-modal">
+
+    <!-- Header -->
+    <div class="sell-modal-header">
+      <div class="sell-modal-title">
+        <span>📢</span> Đăng bài bán xe đạp
+      </div>
+      <button class="sell-close" onclick="closeSellModal()">✕</button>
+    </div>
+
+    <!-- Body -->
+    <div class="sell-modal-body">
+
+      <!-- Form -->
+      <div class="sell-form-col">
+
+        <div class="sell-section-head">Thông tin xe đạp</div>
+
+        <!-- Tên xe -->
+        <div class="sell-field">
+          <label>Tên xe đạp <span class="req">*</span></label>
+          <input type="text" id="sell_name" placeholder="VD: Giant Escape 3 City (Cũ 2022)" oninput="updateSellPreview()">
+        </div>
+
+        <div class="sell-row">
+          <!-- Thương hiệu -->
+          <div class="sell-field">
+            <label>Thương hiệu <span class="req">*</span></label>
+            <input type="text" id="sell_brand" placeholder="Giant, XdS, Trinx..." oninput="updateSellPreview()">
+          </div>
+          <!-- Loại xe -->
+          <div class="sell-field">
+            <label>Loại xe <span class="req">*</span></label>
+            <select id="sell_type" onchange="updateSellPreview()">
+              <option value="cu">Xe đạp đường trường (cũ)</option>
+              <option value="dua">Xe đạp đua</option>
+              <option value="thenao">Xe thể thao</option>
+              <option value="dia">Xe địa hình</option>
+              <option value="nhat">Xe đạp Nhật</option>
+              <option value="gap">Xe đạp gấp</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sell-row">
+          <!-- Giá bán -->
+          <div class="sell-field">
+            <label>Giá bán (₫) <span class="req">*</span></label>
+            <input type="text" id="sell_price" placeholder="VD: 5.000.000" oninput="formatPriceInput('sell_price')">
+          </div>
+          <!-- Giá gốc -->
+          <div class="sell-field">
+            <label>Giá gốc (₫) <small style="font-weight:400;color:#aaa">(tuỳ chọn)</small></label>
+            <input type="text" id="sell_original" placeholder="VD: 8.000.000" oninput="formatPriceInput('sell_original')">
+            <span class="sell-hint">Để tính % giảm giá</span>
+          </div>
+        </div>
+
+        <!-- Tình trạng -->
+        <div class="sell-field">
+          <label>Tình trạng xe <span class="req">*</span></label>
+          <select id="sell_condition" onchange="updateSellPreview()">
+            <option value="Con rat tot">Còn rất tốt (95%+)</option>
+            <option value="Tot">Tốt (80–94%)</option>
+            <option value="Kha">Khá (65–79%)</option>
+          </select>
+        </div>
+
+        <!-- Thông số kỹ thuật -->
+        <div class="sell-field">
+          <label>Thông số kỹ thuật</label>
+          <input type="text" id="sell_specs" placeholder="VD: Shimano 105, 700c, 22 tốc độ">
+          <span class="sell-hint">Nhập các thông số, cách nhau bởi dấu phẩy</span>
+        </div>
+
+        <!-- URL ảnh -->
+        <div class="sell-field">
+          <label>Link ảnh xe</label>
+          <input type="url" id="sell_img" placeholder="https://..." oninput="updateSellPreview()">
+          <span class="sell-hint">Dán link ảnh từ internet (nếu không có sẽ dùng ảnh mặc định)</span>
+        </div>
+
+        <!-- Mô tả -->
+        <div class="sell-field">
+          <label>Mô tả chi tiết</label>
+          <textarea id="sell_desc" placeholder="Mô tả tình trạng xe, lý do bán, thông tin thêm..."></textarea>
+        </div>
+
+        <div class="sell-section-head" style="margin-top:4px">Thông tin liên hệ</div>
+
+        <div class="sell-row">
+          <!-- Tên người bán -->
+          <div class="sell-field">
+            <label>Tên người bán <span class="req">*</span></label>
+            <input type="text" id="sell_seller" placeholder="Họ và tên">
+          </div>
+          <!-- Số điện thoại -->
+          <div class="sell-field">
+            <label>Số điện thoại <span class="req">*</span></label>
+            <input type="tel" id="sell_phone" placeholder="09x xxx xxxx">
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div class="sell-error" id="sell_error"></div>
+
+      </div><!-- /form col -->
+
+      <!-- Preview -->
+      <div class="sell-preview-col">
+        <div class="sell-preview-label">Xem trước tin đăng</div>
+        <div class="sell-preview-card">
+          <div class="sell-preview-img" id="sell_preview_img">🚲</div>
+          <div class="sell-preview-info">
+            <div class="sell-preview-brand" id="sell_preview_brand">Thương hiệu</div>
+            <div class="sell-preview-name"  id="sell_preview_name">Tên xe đạp</div>
+            <div class="sell-preview-bottom">
+              <div class="sell-preview-price" id="sell_preview_price">—</div>
+              <div class="sell-preview-cond"  id="sell_preview_cond" style="background:#27ae60">Còn rất tốt</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--gray-500);line-height:1.6;margin-top:4px">
+          <p>📌 Tin đăng sẽ xuất hiện ngay trên trang sản phẩm.</p>
+          <p style="margin-top:8px">📞 Người mua sẽ liên hệ qua số điện thoại của bạn.</p>
+        </div>
+      </div><!-- /preview col -->
+
+    </div><!-- /body -->
+
+    <!-- Footer -->
+    <div class="sell-modal-footer">
+      <button class="sell-btn-cancel" onclick="closeSellModal()">Huỷ</button>
+      <button class="sell-btn-submit" onclick="doSubmitSell()">
+        📢 Đăng bán ngay
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MY LISTINGS MODAL ─ Tin đăng của tôi ════════════════════════════════ -->
+<div class="my-listings-overlay" id="myListingsModal" style="display:none;">
+  <div class="my-listings-modal">
+    <div class="my-listings-header">
+      <div class="my-listings-title">
+        📋 Tin đăng của tôi
+      </div>
+      <button class="sell-close" onclick="closeMyListings()">✕</button>
+    </div>
+    <div class="my-listings-body" id="myListingsBody">
+      <!-- Populated by JS -->
+    </div>
+    <div class="my-listings-footer">
+      <button class="sell-btn-cancel" onclick="closeMyListings()">Đóng</button>
+      <button class="sell-btn-submit" onclick="closeMyListings();openSellModal()">+ Đăng thêm xe</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ SCRIPTS ════════════════════════════════════════════════════════════════ -->
 <script src="js/data.js"></script>
 <script src="js/utils.js"></script>
@@ -542,6 +714,7 @@
 <script src="js/checkout.js"></script>
 <script src="js/chat.js"></script>
 <script src="js/auth.js"></script>
+<script src="js/sell.js"></script>
 <script src="js/main.js"></script>
 
 </body>
