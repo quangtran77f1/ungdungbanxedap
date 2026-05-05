@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeloShop – Xe Đạp Cũ Chất Lượng</title>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ══ PROMO STRIP ══════════════════════════════════════════════════════════ -->
+<div class="promo-strip">
+  🚴 FREE SHIP toàn quốc cho đơn từ <span>500K</span>
+  &nbsp;•&nbsp; Bảo hành <span>12 tháng</span>
+  &nbsp;•&nbsp; Đổi trả <span>30 ngày</span>
+</div>
+
+<!-- ══ TOP BAR ══════════════════════════════════════════════════════════════ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <div class="topbar-icon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.22 2.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        096 44 111 66
+      </div>
+      <div class="topbar-icon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        223 Hoàng Hoa Thám, Ba Đình, Hà Nội
+      </div>
+    </div>
+    <div class="topbar-right">
+      <a href="#" onclick="openAuthModal('login');return false;">Đăng nhập</a>
+      <span style="opacity:.4">|</span>
+      <a href="#" onclick="openAuthModal('register');return false;">Đăng ký</a>
+      <span style="opacity:.4">|</span>
+      <a href="#">Theo dõi đơn hàng</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HEADER ═══════════════════════════════════════════════════════════════ -->
+<header class="header">
+  <div class="header-inner">
+
+    <div class="logo">
+      <div class="logo-icon">🚲</div>
+      Velo<span>Shop</span>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Tìm kiếm xe đạp, phụ kiện..." id="searchInput">
+      <select aria-label="Danh mục tìm kiếm">
+        <option>Tất cả</option>
+        <option>Xe đạp cũ</option>
+        <option>Xe đạp mới</option>
+        <option>Phụ kiện</option>
+      </select>
+      <button class="btn-search" aria-label="Tìm kiếm">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <div class="hdr-btn" id="btnAccount" onclick="openAuthModal('login')">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Đăng nhập
+      </div>
+      <div class="hdr-btn hdr-user-btn" id="btnLogout" style="display:none;position:relative;" onclick="toggleUserDropdown()">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span id="headerUserName">Tài khoản</span>
+        <div class="user-dropdown" id="userDropdown">
+          <div class="user-dropdown-info">
+            <div class="user-dropdown-name" id="headerUserName"></div>
+            <div class="user-dropdown-email" id="headerUserEmail"></div>
+          </div>
+          <div class="user-dropdown-divider"></div>
+          <div class="user-dropdown-item sell-item" onclick="closeUserDropdown();openMyListings()">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1" ry="1"/></svg>
+            Tin đăng của tôi
+          </div>
+          <div class="user-dropdown-item sell-item" onclick="closeUserDropdown();openSellModal()">
+            <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Đăng bán xe
+          </div>
+          <div class="user-dropdown-divider"></div>
+          <div class="user-dropdown-item" onclick="doLogout()">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Đăng xuất
+          </div>
+        </div>
+      </div>
+      <div class="hdr-btn" onclick="window.location='#'">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Yêu thích
+      </div>
+      <div class="hdr-btn" onclick="openCart()">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        Giỏ hàng
+        <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ══ NAVIGATION ════════════════════════════════════════════════════════════ -->
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <div class="nav-item" onclick="filterCategory('all')">Trang chủ</div>
+    <div class="nav-item active" onclick="filterCategory('cu')">Xe đạp cũ</div>
+    <div class="nav-item" onclick="filterCategory('dua')">Xe đạp đua</div>
+    <div class="nav-item" onclick="filterCategory('thenao')">Xe thể thao</div>
+    <div class="nav-item" onclick="filterCategory('dia')">Xe địa hình</div>
+    <div class="nav-item" onclick="filterCategory('nhat')">Xe đạp Nhật</div>
+    <div class="nav-item" onclick="filterCategory('gap')">Xe đạp gấp</div>
+    <div class="nav-item highlight" onclick="filterCategory('sale')">🔥 Sale</div>
+    <div class="nav-item sell-btn" onclick="openSellModal()">📢 Đăng bán xe</div>
+  </div>
+</nav>
+
+<!-- ══ BREADCRUMB ════════════════════════════════════════════════════════════ -->
+<div class="breadcrumb">
+  <a href="#">Trang chủ</a>
+  <span>›</span>
+  <span style="color:var(--gray-700);font-weight:500">Xe đạp cũ</span>
+</div>
+
+<!-- ══ PAGE BODY ═════════════════════════════════════════════════════════════ -->
+<div class="page-body">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+
+    <!-- Danh mục -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        Danh mục
+      </div>
+      <ul class="sidebar-list">
+        <li><a href="#" class="active" onclick="sideFilter('cu',this)">Xe đạp cũ <span class="sidebar-count">193</span></a></li>
+        <li><a href="#" onclick="sideFilter('dua',this)">Xe đạp đua cũ <span class="sidebar-count">49</span></a></li>
+        <li><a href="#" onclick="sideFilter('thenao',this)">Xe thể thao cũ <span class="sidebar-count">72</span></a></li>
+        <li><a href="#" onclick="sideFilter('dia',this)">Xe địa hình cũ <span class="sidebar-count">38</span></a></li>
+        <li><a href="#" onclick="sideFilter('nhat',this)">Xe đạp Nhật cũ <span class="sidebar-count">22</span></a></li>
+        <li><a href="#" onclick="sideFilter('gap',this)">Xe đạp gấp cũ <span class="sidebar-count">15</span></a></li>
+      </ul>
+    </div>
+
+    <!-- Lọc giá -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Lọc theo giá
+      </div>
+      <div class="price-filter">
+        <div class="price-inputs">
+          <input type="text" placeholder="Từ" id="priceFrom" value="0">
+          <span class="price-sep">–</span>
+          <input type="text" placeholder="Đến" id="priceTo" value="20.000.000">
+        </div>
+        <button class="btn-apply" onclick="applyPrice()">Áp dụng</button>
+      </div>
+    </div>
+
+    <!-- Thương hiệu -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">
+        <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Thương hiệu
+      </div>
+      <div class="brand-filter">
+        <label class="brand-check"><input type="checkbox" checked onchange="applyBrand()"> Giant</label>
+        <label class="brand-check"><input type="checkbox" checked onchange="applyBrand()"> XdS</label>
+        <label class="brand-check"><input type="checkbox" onchange="applyBrand()"> Nakxus</label>
+        <label class="brand-check"><input type="checkbox" onchange="applyBrand()"> Trinx</label>
+        <label class="brand-check"><input type="checkbox" onchange="applyBrand()"> Galaxy</label>
+        <label class="brand-check"><input type="checkbox" onchange="applyBrand()"> GTA</label>
+        <label class="brand-check"><input type="checkbox" onchange="applyBrand()"> Shimano</label>
+      </div>
+    </div>
+
+    <!-- Tình trạng -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Tình trạng
+      </div>
+      <div class="cond-filter">
+        <button class="cond-btn active" onclick="setCond(this)">
+          <div class="cond-dot" style="background:#27ae60"></div> Còn rất tốt (95%+)
+        </button>
+        <button class="cond-btn" onclick="setCond(this)">
+          <div class="cond-dot" style="background:#f39c12"></div> Tốt (80–94%)
+        </button>
+        <button class="cond-btn" onclick="setCond(this)">
+          <div class="cond-dot" style="background:#e74c3c"></div> Khá (65–79%)
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main-content">
+
+    <!-- Banner -->
+    <div class="cat-banner">
+      <div class="cat-banner-left">
+        <h1>XE ĐẠP CŨ CHẤT LƯỢNG</h1>
+        <p>Mua bán, thanh lý xe đạp cũ chính hãng — giá tốt, đã qua kiểm định, bảo hành 6 tháng</p>
+      </div>
+      <div class="cat-banner-right">🚴</div>
+    </div>
+
+    <!-- Active filter tags -->
+    <div class="filter-tags" id="filterTags">
+      <div class="filter-tag">Xe đạp cũ <span onclick="removeTag(this.parentElement)">✕</span></div>
+      <div class="filter-tag">Giant, XdS <span onclick="removeTag(this.parentElement)">✕</span></div>
+      <div class="filter-tag">Còn rất tốt <span onclick="removeTag(this.parentElement)">✕</span></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="toolbar-count">
+          Hiển thị <strong>1–12</strong> của <strong id="totalCount">0</strong> sản phẩm
+        </div>
+        <select class="sort-select" onchange="sortProducts(this.value)">
+          <option value="new">Mới nhất</option>
+          <option value="price_asc">Giá: Thấp → Cao</option>
+          <option value="price_desc">Giá: Cao → Thấp</option>
+          <option value="popular">Phổ biến nhất</option>
+          <option value="discount">Giảm giá nhiều nhất</option>
+        </select>
+      </div>
+      <div class="view-btns">
+        <button class="view-btn active" title="Dạng lưới" onclick="setView('grid',this)">
+          <svg viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+        </button>
+        <button class="view-btn" title="Dạng danh sách" onclick="setView('list',this)">
+          <svg viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="4" rx="1"/><rect x="1" y="6.5" width="14" height="4" rx="1"/><rect x="1" y="12" width="14" height="3" rx="1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product grid (populated by JS) -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- Pagination (populated by JS) -->
+    <div class="pagination" id="pagination"></div>
+
+  </main>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>🚲 VeloShop</h4>
+        <p>Cửa hàng xe đạp thể thao uy tín tại Hà Nội. Chuyên mua bán, trao đổi xe đạp cũ chất lượng cao, chính hãng.</p>
+        <p style="margin-top:10px">📍 223 Hoàng Hoa Thám, Ba Đình, Hà Nội</p>
+        <p>📞 096 44 111 66</p>
+        <p>✉️ contact@veloshop.vn</p>
+      </div>
+      <div class="footer-col">
+        <h4>Danh mục</h4>
+        <ul>
+          <li><a href="#">Xe đạp cũ</a></li>
+          <li><a href="#">Xe đạp đua</a></li>
+          <li><a href="#">Xe thể thao</a></li>
+          <li><a href="#">Xe địa hình</a></li>
+          <li><a href="#">Xe đạp Nhật</a></li>
+          <li><a href="#">Phụ kiện</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Hỗ trợ</h4>
+        <ul>
+          <li><a href="#">Chính sách bảo hành</a></li>
+          <li><a href="#">Chính sách đổi trả</a></li>
+          <li><a href="#">Hướng dẫn mua hàng</a></li>
+          <li><a href="#">Bảo dưỡng xe đạp</a></li>
+          <li><a href="#">Blog kiến thức</a></li>
+          <li><a href="#">Liên hệ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Cam kết</h4>
+        <p>✅ Sản phẩm 100% chính hãng</p>
+        <p>✅ Kiểm định kỹ lưỡng trước khi bán</p>
+        <p>✅ Bảo hành 6–12 tháng</p>
+        <p>✅ Trả góp 0% lãi suất</p>
+        <p>✅ Giao hàng toàn quốc</p>
+        <p>✅ Đổi trả trong 30 ngày</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 VeloShop. Đã đăng ký bản quyền.</span>
+      <div class="social-links">
+        <a class="social-btn" href="#" title="Facebook">f</a>
+        <a class="social-btn" href="#" title="Zalo" onclick="openZaloModal();return false;">Z</a>
+        <a class="social-btn" href="#" title="YouTube">▶</a>
+        <a class="social-btn" href="#" title="Instagram">◎</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CART DRAWER ═══════════════════════════════════════════════════════════ -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCartIfOutside(event)">
+  <div class="cart-drawer">
+    <div class="cart-header">
+      <h3>🛒 Giỏ hàng của bạn</h3>
+      <div class="cart-close" onclick="closeCart()">✕</div>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <p style="font-size:15px;font-weight:600;color:var(--gray-700);margin-bottom:4px">Giỏ hàng trống</p>
+        <p style="font-size:13px;color:var(--gray-500)">Hãy thêm sản phẩm vào giỏ hàng</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Tổng cộng:</span>
+        <span id="cartTotal">0₫</span>
+      </div>
+      <button class="btn-checkout" onclick="openCheckout()">Thanh toán ngay →</button>
+      <button class="btn-continue" onclick="closeCart()">← Tiếp tục mua sắm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DETAIL MODAL ═══════════════════════════════════════════════════════════ -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetailIfOutside(event)">
+  <div class="detail-modal" id="detailModal">
+    <button class="detail-close" onclick="closeDetail()">✕</button>
+    <div class="detail-body">
+      <div class="detail-left">
+        <div class="detail-badge-row" id="detailBadges"></div>
+        <div class="detail-bike-img"  id="detailImg"></div>
+        <div class="detail-thumb-row" id="detailThumbs"></div>
+      </div>
+      <div class="detail-right">
+        <div class="detail-brand-row">
+          <span class="detail-brand-tag"     id="detailBrand"></span>
+          <span class="detail-condition-tag" id="detailCondition"></span>
+        </div>
+        <div class="detail-name" id="detailName"></div>
+
+        <div class="detail-price-block">
+          <div class="detail-price-current"   id="detailPriceCurrent"></div>
+          <div class="detail-price-orig-row"  id="detailPriceOrigRow"></div>
+          <div class="detail-installment"     id="detailInstallment"></div>
+        </div>
+
+        <div class="detail-specs-grid" id="detailSpecsGrid"></div>
+        <hr class="detail-divider">
+        <div class="detail-desc" id="detailDesc"></div>
+
+        <div class="detail-guarantee">
+          <div class="detail-guarantee-item">✅ Bảo hành 6 tháng</div>
+          <div class="detail-guarantee-item">🔄 Đổi trả 30 ngày</div>
+          <div class="detail-guarantee-item">🚚 Miễn phí vận chuyển</div>
+          <div class="detail-guarantee-item">✔️ Đã kiểm định</div>
+        </div>
+
+        <div class="detail-action-row">
+          <button class="btn-detail-cart" id="btnDetailCart">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            Thêm vào giỏ
+          </button>
+          <button class="btn-detail-wish" title="Yêu thích">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </button>
+          <button class="btn-detail-buy" id="btnDetailBuy">Mua ngay</button>
+        </div>
+
+        <div class="detail-contact-row">
+          <button class="btn-detail-zalo" onclick="openZaloChat()">💬 Chat Zalo</button>
+          <button class="btn-detail-call">📞 096 44 111 66</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══════════════════════════════════════════════════════════════════ -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">Đã thêm vào giỏ hàng!</span>
+</div>
+
+
+</html>
+
+<!-- ══ CHECKOUT MODAL ════════════════════════════════════════════════════════ -->
+<div class="checkout-overlay" id="checkoutOverlay" onclick="closeCheckoutIfOutside(event)">
+  <div class="checkout-modal" id="checkoutModal"></div>
+</div>
+
+<!-- ══ CHATBOX ═══════════════════════════════════════════════════════════════ -->
+<!-- Chat FAB button -->
+<button class="chat-fab" onclick="toggleChat()" title="Chat với chúng tôi">
+  <span class="chat-fab-icon">💬</span>
+  <span class="chat-fab-badge" id="chatBadge" style="display:none">1</span>
+</button>
+
+<!-- Chat window -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">🚲</div>
+    <div class="chat-header-info">
+      <div class="chat-agent-name">VeloShop Support</div>
+      <div class="chat-status">Đang trực tuyến</div>
+    </div>
+    <button class="chat-header-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" type="text"
+      placeholder="Nhắn tin cho chúng tôi..." onkeydown="chatKeydown(event)">
+    <button class="chat-send" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+
+<!-- ══ AUTH MODAL (Login / Register) ════════════════════════════════════════ -->
+<div class="auth-overlay" id="authModal" style="display:none;">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuthModal()">✕</button>
+    <div class="auth-logo">🚲 VeloShop</div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">Đăng nhập</button>
+      <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">Đăng ký</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="auth-form-section active" id="authForm_login">
+      <p class="auth-subtitle">Chào mừng bạn trở lại VeloShop!</p>
+      <div class="auth-field">
+        <label>Email</label>
+        <input type="email" id="login_email" placeholder="your@email.com" onkeydown="authKeydown(event, doLogin)">
+      </div>
+      <div class="auth-field">
+        <label>Mật khẩu</label>
+        <div class="auth-pw-wrap">
+          <input type="password" id="login_password" placeholder="Mật khẩu" onkeydown="authKeydown(event, doLogin)">
+          <span class="auth-pw-toggle" onclick="togglePw('login_password', this)">👁</span>
+        </div>
+      </div>
+      <div class="auth-remember-row">
+        <label><input type="checkbox" id="login_remember"> Ghi nhớ đăng nhập</label>
+        <a href="#" class="auth-forgot">Quên mật khẩu?</a>
+      </div>
+      <div class="auth-error" id="login_error"></div>
+      <button class="auth-submit" onclick="doLogin()">Đăng nhập</button>
+      <div class="auth-divider"><span>hoặc</span></div>
+      <button class="auth-social zalo-btn" onclick="openZaloChat()">
+        <span class="zalo-icon">Z</span> Liên hệ qua Zalo
+      </button>
+      <p class="auth-switch">Chưa có tài khoản? <a href="#" onclick="switchAuthTab('register');return false;">Đăng ký ngay</a></p>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div class="auth-form-section" id="authForm_register">
+      <p class="auth-subtitle">Tạo tài khoản VeloShop miễn phí!</p>
+      <div class="auth-field">
+        <label>Họ và tên <span class="auth-required">*</span></label>
+        <input type="text" id="reg_name" placeholder="Nguyễn Văn A">
+      </div>
+      <div class="auth-field">
+        <label>Email <span class="auth-required">*</span></label>
+        <input type="email" id="reg_email" placeholder="your@email.com">
+      </div>
+      <div class="auth-field">
+        <label>Số điện thoại</label>
+        <input type="tel" id="reg_phone" placeholder="096 44 111 66">
+      </div>
+      <div class="auth-field">
+        <label>Mật khẩu <span class="auth-required">*</span></label>
+        <div class="auth-pw-wrap">
+          <input type="password" id="reg_password" placeholder="Tối thiểu 6 ký tự">
+          <span class="auth-pw-toggle" onclick="togglePw('reg_password', this)">👁</span>
+        </div>
+      </div>
+      <div class="auth-field">
+        <label>Xác nhận mật khẩu <span class="auth-required">*</span></label>
+        <div class="auth-pw-wrap">
+          <input type="password" id="reg_confirm" placeholder="Nhập lại mật khẩu" onkeydown="authKeydown(event, doRegister)">
+          <span class="auth-pw-toggle" onclick="togglePw('reg_confirm', this)">👁</span>
+        </div>
+      </div>
+      <div class="auth-error" id="reg_error"></div>
+      <div class="auth-success" id="reg_success"></div>
+      <button class="auth-submit" onclick="doRegister()">Tạo tài khoản</button>
+      <p class="auth-switch">Đã có tài khoản? <a href="#" onclick="switchAuthTab('login');return false;">Đăng nhập</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ZALO CHAT MODAL ═══════════════════════════════════════════════════════ -->
+<div class="zalo-overlay" id="zaloModal" style="display:none;">
+  <div class="zalo-modal">
+    <button class="auth-close" onclick="closeZaloModal()">✕</button>
+    <div class="zalo-modal-header">
+      <div class="zalo-modal-avatar">Z</div>
+      <div>
+        <div class="zalo-modal-name">VeloShop Official</div>
+        <div class="zalo-modal-status">🟢 Đang hoạt động</div>
+      </div>
+    </div>
+    <div class="zalo-modal-body">
+      <p>Chào mừng bạn đến VeloShop! 🚲</p>
+      <p>Nhắn tin qua Zalo để được tư vấn trực tiếp và nhanh nhất. Chúng tôi phản hồi trong vòng <strong>5 phút</strong>!</p>
+      <div class="zalo-modal-info">
+        <div class="zalo-info-item">📞 Hotline: <strong>096 44 111 66</strong></div>
+        <div class="zalo-info-item">🕐 Giờ làm việc: <strong>8:00 – 21:00</strong> (Thứ 2 – CN)</div>
+        <div class="zalo-info-item">📍 223 Hoàng Hoa Thám, Ba Đình, Hà Nội</div>
+      </div>
+    </div>
+    <a class="zalo-open-btn" href="https://zalo.me/0964411166" target="_blank" rel="noopener">
+      <span class="zalo-icon">Z</span> Mở Zalo Chat ngay
+    </a>
+    <p class="zalo-modal-note">Bấm nút trên để mở Zalo và nhắn tin trực tiếp với tư vấn viên VeloShop.</p>
+  </div>
+</div>
+
+<!-- ══ SELL MODAL – Đăng bài bán xe ═════════════════════════════════════════ -->
+<div class="sell-overlay" id="sellModal" style="display:none;">
+  <div class="sell-modal">
+
+    <!-- Header -->
+    <div class="sell-modal-header">
+      <div class="sell-modal-title">
+        <span>📢</span> Đăng bài bán xe đạp
+      </div>
+      <button class="sell-close" onclick="closeSellModal()">✕</button>
+    </div>
+
+    <!-- Body -->
+    <div class="sell-modal-body">
+
+      <!-- Form -->
+      <div class="sell-form-col">
+
+        <div class="sell-section-head">Thông tin xe đạp</div>
+
+        <!-- Tên xe -->
+        <div class="sell-field">
+          <label>Tên xe đạp <span class="req">*</span></label>
+          <input type="text" id="sell_name" placeholder="VD: Giant Escape 3 City (Cũ 2022)" oninput="updateSellPreview()">
+        </div>
+
+        <div class="sell-row">
+          <!-- Thương hiệu -->
+          <div class="sell-field">
+            <label>Thương hiệu <span class="req">*</span></label>
+            <input type="text" id="sell_brand" placeholder="Giant, XdS, Trinx..." oninput="updateSellPreview()">
+          </div>
+          <!-- Loại xe -->
+          <div class="sell-field">
+            <label>Loại xe <span class="req">*</span></label>
+            <select id="sell_type" onchange="updateSellPreview()">
+              <option value="cu">Xe đạp đường trường (cũ)</option>
+              <option value="dua">Xe đạp đua</option>
+              <option value="thenao">Xe thể thao</option>
+              <option value="dia">Xe địa hình</option>
+              <option value="nhat">Xe đạp Nhật</option>
+              <option value="gap">Xe đạp gấp</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sell-row">
+          <!-- Giá bán -->
+          <div class="sell-field">
+            <label>Giá bán (₫) <span class="req">*</span></label>
+            <input type="text" id="sell_price" placeholder="VD: 5.000.000" oninput="formatPriceInput('sell_price')">
+          </div>
+          <!-- Giá gốc -->
+          <div class="sell-field">
+            <label>Giá gốc (₫) <small style="font-weight:400;color:#aaa">(tuỳ chọn)</small></label>
+            <input type="text" id="sell_original" placeholder="VD: 8.000.000" oninput="formatPriceInput('sell_original')">
+            <span class="sell-hint">Để tính % giảm giá</span>
+          </div>
+        </div>
+
+        <!-- Tình trạng -->
+        <div class="sell-field">
+          <label>Tình trạng xe <span class="req">*</span></label>
+          <select id="sell_condition" onchange="updateSellPreview()">
+            <option value="Con rat tot">Còn rất tốt (95%+)</option>
+            <option value="Tot">Tốt (80–94%)</option>
+            <option value="Kha">Khá (65–79%)</option>
+          </select>
+        </div>
+
+        <!-- Thông số kỹ thuật -->
+        <div class="sell-field">
+          <label>Thông số kỹ thuật</label>
+          <input type="text" id="sell_specs" placeholder="VD: Shimano 105, 700c, 22 tốc độ">
+          <span class="sell-hint">Nhập các thông số, cách nhau bởi dấu phẩy</span>
+        </div>
+
+        <!-- URL ảnh -->
+        <div class="sell-field">
+          <label>Link ảnh xe</label>
+          <input type="url" id="sell_img" placeholder="https://..." oninput="updateSellPreview()">
+          <span class="sell-hint">Dán link ảnh từ internet (nếu không có sẽ dùng ảnh mặc định)</span>
+        </div>
+
+        <!-- Mô tả -->
+        <div class="sell-field">
+          <label>Mô tả chi tiết</label>
+          <textarea id="sell_desc" placeholder="Mô tả tình trạng xe, lý do bán, thông tin thêm..."></textarea>
+        </div>
+
+        <div class="sell-section-head" style="margin-top:4px">Thông tin liên hệ</div>
+
+        <div class="sell-row">
+          <!-- Tên người bán -->
+          <div class="sell-field">
+            <label>Tên người bán <span class="req">*</span></label>
+            <input type="text" id="sell_seller" placeholder="Họ và tên">
+          </div>
+          <!-- Số điện thoại -->
+          <div class="sell-field">
+            <label>Số điện thoại <span class="req">*</span></label>
+            <input type="tel" id="sell_phone" placeholder="09x xxx xxxx">
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div class="sell-error" id="sell_error"></div>
+
+      </div><!-- /form col -->
+
+      <!-- Preview -->
+      <div class="sell-preview-col">
+        <div class="sell-preview-label">Xem trước tin đăng</div>
+        <div class="sell-preview-card">
+          <div class="sell-preview-img" id="sell_preview_img">🚲</div>
+          <div class="sell-preview-info">
+            <div class="sell-preview-brand" id="sell_preview_brand">Thương hiệu</div>
+            <div class="sell-preview-name"  id="sell_preview_name">Tên xe đạp</div>
+            <div class="sell-preview-bottom">
+              <div class="sell-preview-price" id="sell_preview_price">—</div>
+              <div class="sell-preview-cond"  id="sell_preview_cond" style="background:#27ae60">Còn rất tốt</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--gray-500);line-height:1.6;margin-top:4px">
+          <p>📌 Tin đăng sẽ xuất hiện ngay trên trang sản phẩm.</p>
+          <p style="margin-top:8px">📞 Người mua sẽ liên hệ qua số điện thoại của bạn.</p>
+        </div>
+      </div><!-- /preview col -->
+
+    </div><!-- /body -->
+
+    <!-- Footer -->
+    <div class="sell-modal-footer">
+      <button class="sell-btn-cancel" onclick="closeSellModal()">Huỷ</button>
+      <button class="sell-btn-submit" onclick="doSubmitSell()">
+        📢 Đăng bán ngay
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MY LISTINGS MODAL ─ Tin đăng của tôi ════════════════════════════════ -->
+<div class="my-listings-overlay" id="myListingsModal" style="display:none;">
+  <div class="my-listings-modal">
+    <div class="my-listings-header">
+      <div class="my-listings-title">
+        📋 Tin đăng của tôi
+      </div>
+      <button class="sell-close" onclick="closeMyListings()">✕</button>
+    </div>
+    <div class="my-listings-body" id="myListingsBody">
+      <!-- Populated by JS -->
+    </div>
+    <div class="my-listings-footer">
+      <button class="sell-btn-cancel" onclick="closeMyListings()">Đóng</button>
+      <button class="sell-btn-submit" onclick="closeMyListings();openSellModal()">+ Đăng thêm xe</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════════════════════════ -->
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/products.js"></script>
+<script src="js/checkout.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/sell.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
